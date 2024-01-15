@@ -1,0 +1,52 @@
+{
+    "data": [
+        {
+                "id" : 1,
+                "image": "Honey bacon burger.jpg",
+                "price": 15000,
+                "name": "Honey bacon burger"
+        },
+        {
+                "id" : 2,
+                "image": "Buttermilk chicken burger.jpg",
+                "price": 25000,
+                "name": "Buttermilk chicken burger"
+        },
+        {
+                "id" : 1,
+                "image": "Honey bacon burger.jpg",
+                "price": 15000,
+                "name": "Honey bacon burger"
+        },
+        {
+                "id" : 2,
+                "image": "Buttermilk chicken burger.jpg",
+                "price": 25000,
+                "name": "Buttermilk chicken burger"
+        },
+        {
+                "id" : 2,
+                "image": "Buttermilk chicken burger.jpg",
+                "price": 25000,
+                "name": "Buttermilk chicken burger"
+        },
+        {
+                "id" : 1,
+                "image": "Honey bacon burger.jpg",
+                "price": 15000,
+                "name": "Honey bacon burger"
+        },
+        {
+                "id" : 1,
+                "image": "Honey bacon burger.jpg",
+                "price": 15000,
+                "name": "Honey bacon burger"
+        },
+        {
+                "id" : 2,
+                "image": "Buttermilk chicken burger.jpg",
+                "price": 25000,
+                "name": "Buttermilk chicken burger"
+        }
+    ]
+}

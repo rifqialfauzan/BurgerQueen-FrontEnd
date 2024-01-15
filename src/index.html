@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BurgerQueen</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <section class="navigation" id="navigation" ></section>
+
+        <div class="hero" style="background-image: url('img/hero-image-min.png')">
+            <div class="hero-text">
+                <div class="text-container">
+                    <h1>
+                        burger<br />
+                        <span>make us</span> <br />
+                        happier
+                    </h1>
+                    <a href="#products" class="btn hero-button" type="menu">See Products</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="products">
+        <div class="section-header">Products</div>
+        <div class="products-container" id="products-container"></div>
+    </section>
+
+
+    <section id="footer"></section>
+
+    <script>
+        const navigation = document.getElementById("navigation");
+        const footer = document.getElementById("footer");
+
+        fetch("./header.html").then((file) => file.text()).then((result) => {
+            navigation.innerHTML = result;
+        });
+
+        fetch("./footer.html").then((file) => file.text()).then((result) => {
+            footer.innerHTML = result;
+        })
+
+        // Still use dummy product, need to change url to backend endpoint for getAllProducts
+        function getProducts() {
+            const request = new Request("./product", {
+                method: "GET"
+            });
+
+            const response = fetch(request);
+
+            return response.then((response) => response.json());
+        }
+
+        async function loadProducts() {
+            return await getProducts();
+        }
+
+        const productContainer = document.getElementById("products-container");
+
+
+
+        loadProducts().then((products) => {
+            console.info(products.data);
+            const product = products.data;
+            for (let i = 0; i < products.data.length; i++) {
+                // console.info(`${product[i]}`)
+                const productElement = createProduct(product[i]);
+                productContainer.appendChild(productElement);
+
+            }
+
+        });
+
+
+        function createProduct(product) {
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("product");
+
+            const form = document.createElement("form");
+            form.action = "/cart";
+            form.method = "post";
+
+            const productHeaderDiv = document.createElement("div");
+            productHeaderDiv.classList.add("product-header");
+            const img = document.createElement("img");
+            img.classList.add("product-image");
+            img.src = `img/${product.image}`;
+            productHeaderDiv.appendChild(img);
+
+            const productBodyDiv = document.createElement("div");
+            productBodyDiv.classList.add("product-body");
+
+            const productDescDiv = document.createElement("div");
+            productDescDiv.classList.add("product-description");
+            const productPrice = document.createElement("p")
+            productPrice.classList.add("price");
+            productPrice.textContent = `${product.price}`;
+            const productTitle = document.createElement("p")
+            productTitle.classList.add("title");
+            productTitle.textContent = `${product.name}`;
+            productDescDiv.appendChild(productTitle);
+            productDescDiv.appendChild(productPrice);
+
+            const productBtnDiv = document.createElement("div");
+            productBtnDiv.classList.add("product-button");
+            const productInfo = document.createElement("img")
+            productInfo.classList.add("product-info");
+            productInfo.src = "img/circle-info-solid.svg";
+            const productInputHidden = document.createElement("input")
+            productInputHidden.type = "hidden";
+            productInputHidden.name = "id";
+            productInputHidden.value = `${product.id}`;
+            const productInputSubmit = document.createElement("input")
+            productInputSubmit.type = "submit";
+            productInputSubmit.classList.add("btn", "cart-button");
+            productInputSubmit.value = "Add";
+            productBtnDiv.appendChild(productInfo);
+            productBtnDiv.appendChild(productInputHidden);
+            productBtnDiv.appendChild(productInputSubmit);
+
+
+            productBodyDiv.appendChild(productDescDiv);
+            productBodyDiv.appendChild(productBtnDiv);
+
+            form.appendChild(productHeaderDiv);
+            form.appendChild(productBodyDiv);
+
+            productDiv.appendChild(form);
+            return productDiv;
+        }
+
+    </script>
+</body>
+</html>
