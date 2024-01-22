@@ -41,7 +41,7 @@
 
 
 		function login(){
-			const request = new Request("https://dodola.free.beeceptor.com", {
+			const request = new Request("http://localhost:8080/auth", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -63,8 +63,13 @@
 			promise.then((response) => {
 				if (response.status === 200){
 					console.log("Masuk nih")
+					// Logic untuk nyimpen/store jwt token kedalam cookie
+					const token = response.headers.get("Authorization");
+					Document.cookies = `token=${token}`;
+					console.log(Document.cookies.get("token")); // fail ini, cookienya masih belum ke store
 					window.location.href = "index.html";
 				}else {
+					// logic to show error login failed
 					console.info("Gagal Login");
 				}
 			});

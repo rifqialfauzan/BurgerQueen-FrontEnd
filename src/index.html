@@ -48,8 +48,10 @@
 
         // Still use dummy product, need to change url to backend endpoint for getAllProducts
         function getProducts() {
-            const request = new Request("./product", {
-                method: "GET"
+            const request = new Request("http://localhost:8080/product", {
+                'Content-Type': "application/json",
+                method: "GET",
+                // mode: "no-cors"
             });
 
             const response = fetch(request);
