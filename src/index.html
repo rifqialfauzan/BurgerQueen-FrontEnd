@@ -34,7 +34,9 @@
 
     <section id="footer"></section>
 
-    <script>
+    <script type="module">
+        import {isAuthenticated} from "./js/main.js";
+
         const navigation = document.getElementById("navigation");
         const footer = document.getElementById("footer");
 
@@ -136,6 +138,11 @@
             productDiv.appendChild(form);
             return productDiv;
         }
+
+
+
+        isAuthenticated();
+
 
     </script>
 </body>
