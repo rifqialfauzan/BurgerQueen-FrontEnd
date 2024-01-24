@@ -37,11 +37,8 @@
 
 
 	<script>
-
-
-
 		function login(){
-			const request = new Request("http://localhost:8080/auth", {
+			const request = new Request("data/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -52,30 +49,25 @@
 					password: document.getElementById("password").value
 				})
 			});
-
 			return fetch(request);
+		}
+
+		async function doLogin() {
+			try {
+				const promise = await login();
+				const json = await promise.json();
+				const token = json.data;
+				document.cookie = `token=${token}`;
+				console.log(document.cookie);
+			}catch (error){
+				console.error(error);
+			}
 		}
 
 		document.getElementById("loginBtn").onclick = (ev) => {
 			ev.preventDefault();
-
-			const promise = login();
-			promise.then((response) => {
-				if (response.status === 200){
-					console.log("Masuk nih")
-					// Logic untuk nyimpen/store jwt token kedalam cookie
-					const token = response.headers.get("Authorization");
-					Document.cookies = `token=${token}`;
-					console.log(Document.cookies.get("token")); // fail ini, cookienya masih belum ke store
-					window.location.href = "index.html";
-				}else {
-					// logic to show error login failed
-					console.info("Gagal Login");
-				}
-			});
-
-
-
+			doLogin();
+			window.location.href = "index.html";
 		};
 	</script>
 	</body>
