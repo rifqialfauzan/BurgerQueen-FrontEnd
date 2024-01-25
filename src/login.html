@@ -18,7 +18,7 @@
 							<h1>Login</h1>
 						</div>
 						<form name="loginForm" class="form" method="post">
-<!--							<p th:if="${errorMessage}" th:text="${errorM	essage}"></p>-->
+							<p class="login-error"></p>
 							<label for="email"></label>
 							<input type="email" id="email" name="username" placeholder="email"  required/>
 							<label for="password"></label>
@@ -37,37 +37,37 @@
 
 
 	<script>
-		function login(){
-			const request = new Request("data/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"Accept": "application/json"
-				},
-				body: JSON.stringify({
-					email: document.getElementById("email").value,
-					password: document.getElementById("password").value
-				})
-			});
-			return fetch(request);
-		}
-
 		async function doLogin() {
 			try {
-				const promise = await login();
-				const json = await promise.json();
-				const token = json.data;
-				document.cookie = `token=${token}`;
-				console.log(document.cookie);
+				const request = new Request("data/login", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					body: JSON.stringify({
+						email: document.getElementById("email").value,
+						password: document.getElementById("password").value
+					})
+				});
+
+				const promise = await fetch(request);
+				if (promise.ok){
+					const json = await promise.json();
+					const token = json.data;
+					document.cookie = `token=${token}`;
+					// console.log(document.cookie);
+					window.location.href = "index.html";
+				}
 			}catch (error){
-				console.error(error);
+				const element = document.querySelector(".login-error");
+				element.textContent = "Username or password invalid";
 			}
 		}
 
 		document.getElementById("loginBtn").onclick = (ev) => {
 			ev.preventDefault();
 			doLogin();
-			window.location.href = "index.html";
 		};
 	</script>
 	</body>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BurgerQueen</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/test.css">
 </head>
 
 <body>
@@ -70,15 +71,13 @@
 
 
         loadProducts().then((products) => {
-            console.info(products.data);
+            // console.info(products.data);
             const product = products.data;
             for (let i = 0; i < products.data.length; i++) {
                 // console.info(`${product[i]}`)
                 const productElement = createProduct(product[i]);
                 productContainer.appendChild(productElement);
-
             }
-
         });
 
 
@@ -140,8 +139,16 @@
         }
 
 
-
-        isAuthenticated();
+        window.onload = () => {
+            if (isAuthenticated()){
+                console.info(isAuthenticated());
+                const element = document.querySelector(".login");
+                element.classList.add("hide");
+            }else {
+                const element = document.querySelector(".profile");
+                element.classList.add("hide");
+            }
+        }
 
 
     </script>
