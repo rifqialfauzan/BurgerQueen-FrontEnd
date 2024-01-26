@@ -1,11 +1,12 @@
 function getTokenFromCookie(cookie) {
-    if (!cookie){
-        return null;
+    // console.log(document.cookie);
+    if (cookie){
+        return cookie.split("; ")
+            .find((row) => row.startsWith("token="))
+            .split("=")[1];
     }
 
-    return cookie.split("; ")
-        .find((row) => row.startsWith("token="))
-        .split("=")[1];
+    return null;
 }
 
 function isTokenExpired(tokenFromCookie) {
@@ -21,9 +22,9 @@ function isTokenExpired(tokenFromCookie) {
     return Date.now() >= tokenExp;
 }
 
-export function isAuthenticated() {
+function isAuthenticated() {
     const tokenFromCookie = getTokenFromCookie(document.cookie);
-    console.info(tokenFromCookie);
+    // console.info(tokenFromCookie);
     if (tokenFromCookie !== null) {
         if (!isTokenExpired(tokenFromCookie)){
             return true;
@@ -31,4 +32,14 @@ export function isAuthenticated() {
     }
     return false;
 }
+
+function setCookie(name, value) {
+    document.cookie = name +'='+ value +'; Path=/;';
+}
+function deleteCookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+export {isAuthenticated, setCookie, deleteCookie};
 

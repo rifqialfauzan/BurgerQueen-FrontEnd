@@ -36,7 +36,7 @@
     <section id="footer"></section>
 
     <script type="module">
-        import {isAuthenticated} from "./js/main.js";
+        import {isAuthenticated, deleteCookie} from "./js/main.js";
 
         const navigation = document.getElementById("navigation");
         const footer = document.getElementById("footer");
@@ -139,16 +139,28 @@
         }
 
 
+
         window.onload = () => {
             if (isAuthenticated()){
-                console.info(isAuthenticated());
+                // console.info(isAuthenticated());
                 const element = document.querySelector(".login");
+                // console.info(element);
                 element.classList.add("hide");
+
+                document.querySelector(".logoutBtn").onclick = (ev) => {
+                    ev.preventDefault();
+
+                    // console.info(document.querySelector(".logoutBtn"));
+                    deleteCookie("token");
+                    window.location.href = "index.html";
+                }
             }else {
                 const element = document.querySelector(".profile");
+                // console.info(element);
                 element.classList.add("hide");
             }
         }
+
 
 
     </script>
