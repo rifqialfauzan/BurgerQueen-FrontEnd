@@ -36,7 +36,7 @@
     <section id="footer"></section>
 
     <script type="module">
-        import {isAuthenticated, deleteCookie} from "./js/main.js";
+        import {isAuthenticated, deleteCookie} from "./scripts/main.js";
 
         const navigation = document.getElementById("navigation");
         const footer = document.getElementById("footer");
@@ -144,7 +144,7 @@
             if (isAuthenticated()){
                 // console.info(isAuthenticated());
                 const element = document.querySelector(".login");
-                // console.info(element);
+                console.info(element);
                 element.classList.add("hide");
 
                 document.querySelector(".logoutBtn").onclick = (ev) => {

@@ -1,0 +1,88 @@
+{
+    "data": {
+        "id": 1,
+        "cartItems": [
+            {
+                "products": {
+                      "id" : 1,
+                      "image": "Honey bacon burger.jpg",
+                      "price": 15000,
+                      "name": "Honey bacon burger"
+                },
+                "quantity": 2,
+                "total": 30000
+            },
+            {
+                "products": {
+                      "id" : 2,
+                      "image": "Buttermilk chicken burger.jpg",
+                      "price": 25000,
+                      "name": "Buttermilk chicken burger"
+                },
+                "quantity": 2,
+                "total": 50000
+            },
+            {
+                "products": {
+                      "id" : 3,
+                      "image": "Honey bacon burger.jpg",
+                      "price": 15000,
+                      "name": "Honey bacon burger"
+                },
+                "quantity": 1,
+                "total": 15000
+            },
+            {
+                "products": {
+                      "id" : 4,
+                      "image": "Buttermilk chicken burger.jpg",
+                      "price": 25000,
+                      "name": "Buttermilk chicken burger"
+                },
+                "quantity": 4,
+                "total": 100000
+            },
+            {
+                "products": {
+                      "id" : 5,
+                      "image": "Buttermilk chicken burger.jpg",
+                      "price": 25000,
+                      "name": "Buttermilk chicken burger"
+                },
+                "quantity": 1,
+                "total": 25000
+            },
+            {
+                "products": {
+                      "id" : 6,
+                      "image": "Honey bacon burger.jpg",
+                      "price": 15000,
+                      "name": "Honey bacon burger"
+                },
+                "quantity": 1,
+                "total": 15000
+            },
+            {
+                "products": {
+                      "id" : 7,
+                      "image": "Honey bacon burger.jpg",
+                      "price": 15000,
+                      "name": "Honey bacon burger"
+                },
+                "quantity": 2,
+                "total": 30000
+            },
+            {
+                "products": {
+                      "id" : 8,
+                      "image": "Buttermilk chicken burger.jpg",
+                      "price": 25000,
+                      "name": "Buttermilk chicken burger"
+                },
+                "quantity": 3,
+                "total": 75000
+            }
+        ],
+        "totalPrice": 340000
+    }
+}

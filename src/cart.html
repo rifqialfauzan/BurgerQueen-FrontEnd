@@ -1,65 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 	<head>
-		<div th:replace="fragments :: html_head (type='tag')"></div>
-		<link rel="stylesheet" th:href="@{/css/cart.css}" />
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BurgerQueen - Order</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/cart.css">
+		<link rel="stylesheet" href="css/test.css">
 	</head>
 
 	<body>
 
 
-			<section th:replace="fragments :: navigation"></section>
+		<section id="navigation"></section>
+
 
 
 		<section class="container" id="cart">
 			<div class="cart-wrapper">
 				<div class="cart-order-items" >
-					<div th:if = "${nullCart}">
-						<div th:text="${nullCart}"></div>
-					</div>
-					<div th:if = "${nullCart == null}">
-						<table>
+<!--					<div th:if = "${nullCart}">-->
+<!--						<div th:text="${nullCart}"></div>-->
+<!--					</div>-->
+<!--					<div th:if = "${nullCart == null}">-->
+					<div>
+						<table id="cartTable">
 							<tr>
 								<th class="menu-item">Menu Item</th>
 								<th>Quantity</th>
 								<th>Subtotal</th>
 							</tr>
-							<tr th:each="cartItem : ${shoppingCart.cartItem}">
-								<td class="order-title">
-									<img th:src="@{'/img/' + ${cartItem.product.image}}" alt="" />
-									<p class="title">[[${cartItem.product.name}]]</p>
-								</td>
-								<td>
-									<div class="wrapper">
-										<form th:action="@{/subQuantity}" method="post">
-											<input type="hidden" th:value="${cartItem.product.id}" name="id">
-											<input type="submit" class="minus" value="-" >
-										</form>
-										<input class="num" th:value="${cartItem.quantity}" disabled>
-										<form th:action="@{/addQuantity}" method="post">
-											<input type="hidden" th:value="${cartItem.product.id}" name="id">
-											<input type="submit" class="plus" value="+" >
-										</form>
-									</div>
-								</td>
-								<td>
-									<p class="price">Rp. [[${cartItem.total}]] </p>
-									<a th:href="@{'/deleteItem/' + ${cartItem.product.id}}" class="delete-item">
-										<img th:src="@{/img/trash-solid.svg}">
-									</a>
-								</td>
-								<td></td>
-							</tr>
+<!--							<trs th:each="cartItem : ${shoppingCart.cartItem}">-->
+<!--								<td class="order-title">-->
+<!--									<img th:src="@{'/img/' + ${cartItem.product.image}}" alt="" />-->
+<!--									<p class="title">[[${cartItem.product.name}]]</p>-->
+<!--								</td>-->
+<!--								<td>-->
+<!--									<div class="wrapper">-->
+<!--										<form th:action="@{/subQuantity}" method="post">-->
+<!--											<input type="hidden" th:value="${cartItem.product.id}" name="id">-->
+<!--											<input type="submit" class="minus" value="-" >-->
+<!--										</form>-->
+<!--										<input class="num" th:value="${cartItem.quantity}" disabled>-->
+<!--										<form th:action="@{/addQuantity}" method="post">-->
+<!--											<input type="hidden" th:value="${cartItem.product.id}" name="id">-->
+<!--											<input type="submit" class="plus" value="+" >-->
+<!--										</form>-->
+<!--									</div>-->
+<!--								</td>-->
+<!--								<td>-->
+<!--									<p class="price">Rp. [[${cartItem.total}]] </p>-->
+<!--									<a th:href="@{'/deleteItem/' + ${cartItem.product.id}}" class="delete-item">-->
+<!--										<img th:src="@{/img/trash-solid.svg}">-->
+<!--									</a>-->
+<!--								</td>-->
+<!--								<td></td>-->
+<!--							</tr>-->
 						</table>
-						<div th:if="${noItem}" th:text="${noItem}" style="text-align:center; margin-top:1em;"></div>
+						<div class="no-item" style="text-align:center; margin-top:1em;"></div>
 
 					</div>
 				</div>
 				<div class="cart-actions">
 					<div class="total-price">
 						<p>Order Subtotal*</p>
-						<h1 th:if="${nullCart == null}">Rp. [[${shoppingCart.subtotal}]]</h1>
-						<h1 th:if="${nullCart}">Rp. 0</h1>
+						<h1 id="needToPay"></h1>
 					</div>
 					<p class="price-disclaimer">*Price might change due to your delivery location.</p>
 					<a href="" class="order-button btn">Order</a>
@@ -67,9 +73,9 @@
 			</div>
 		</section>
 
-		<section th:replace="fragments :: footer"></section>
+		<section id="footer"></section>
 
-			<script>
+<!--			<script>-->
 <!--			const plus = document.querySelector(".plus"),-->
 <!--				minus = document.querySelector(".minus"),-->
 <!--				num = document.querySelector(".num");-->
@@ -88,6 +94,180 @@
 
 <!--				}-->
 <!--			});-->
-		</script>
+<!--		</script>-->
+	<script type="module">
+		import {isAuthenticated, deleteCookie} from "./scripts/main.js";
+
+		const navigation = document.getElementById("navigation");
+		const footer = document.getElementById("footer");
+
+		fetch("./header.html").then((file) => file.text()).then((result) => {
+			navigation.innerHTML = result;
+		});
+
+		fetch("./footer.html").then((file) => file.text()).then((result) => {
+			footer.innerHTML = result;
+		})
+
+		async function getUserShoppingCart(){
+			const request = new Request("data/userShoppingCart", {
+				method: "GET",
+
+			});
+
+			const response = await fetch(request);
+			return await response.json();
+		}
+
+		async function loadCartItems(){
+			const cartItemTable = document.getElementById("cartTable");
+			const needToPay = document.getElementById("needToPay");
+			const shoppingCart = await getUserShoppingCart();
+			const cartItems = shoppingCart.data.cartItems;
+			console.info(cartItems);
+
+			if (cartItems){
+				for (let i = 0; i < cartItems.length; i++){
+					const tableRow = createCartItemRow(cartItems[i])
+					cartItemTable.appendChild(tableRow);
+				}
+				needToPay.textContent = shoppingCart.data.totalPrice;
+			}else {
+				const noItem = document.querySelector(".no-item");
+				noItem.textContent = "No Item";
+
+				needToPay.textContent = "0";
+			}
+		}
+
+		function createCartItemRow(cartItem){
+			// Parent <tr>
+			const tableRow = document.createElement("tr");
+
+			// create first <td> for order title
+			const firstTd = document.createElement("td")
+			firstTd.classList.add("order-title");
+
+			// create img and title for first <td>
+			const productImg = document.createElement("img");
+			productImg.src = `img/${cartItem.products.image}`;
+			const title = document.createElement("p");
+			title.classList.add("title");
+			title.textContent = cartItem.products.name;
+
+			// append img and title to first <td>
+			firstTd.appendChild(productImg);
+			firstTd.appendChild(title);
+
+			// create second <td> for quantity
+			const secondTd = document.createElement("td");
+
+			// create wrapper for quantity, subBtn and addBtn
+			const wrapper = document.createElement("div");
+			wrapper.classList.add("wrapper");
+
+
+			// create form for subBtn
+			const subBtnForm = document.createElement("form");
+			subBtnForm.method = "POST";
+			subBtnForm.action = "/";
+
+			// create input for subBtnForm
+			const itemIdInputSub = document.createElement("input");
+			itemIdInputSub.type = "hidden";
+			itemIdInputSub.value = cartItem.products.id;
+			itemIdInputSub.name = "id";
+			const submitSubBtn = document.createElement("input");
+			submitSubBtn.type = "submit";
+			submitSubBtn.classList.add("minus");
+			submitSubBtn.value = "-";
+
+			// append input to subBtnForm
+			subBtnForm.appendChild(itemIdInputSub);
+			subBtnForm.appendChild(submitSubBtn);
+
+			// create input for display item quantity
+			const displayQuantity = document.createElement("input");
+			displayQuantity.classList.add("num");
+			displayQuantity.disabled;
+			displayQuantity.value = cartItem.quantity;
+
+			// create form for addBtn
+			const addBtnForm = document.createElement("form");
+			addBtnForm.method = "POST";
+			addBtnForm.action = "/";
+
+			// create input for addBtnForm
+			const itemIdInputAdd = document.createElement("input");
+			itemIdInputAdd.type = "hidden";
+			itemIdInputAdd.value = cartItem.products.id;
+			itemIdInputAdd.name = "id";
+			const submitAddBtn = document.createElement("input");
+			submitAddBtn.type = "submit";
+			submitAddBtn.classList.add("plus");
+			submitAddBtn.value = "+";
+
+			// append input to addBtnForm
+			addBtnForm.appendChild(itemIdInputAdd);
+			addBtnForm.appendChild(submitAddBtn);
+
+			// append subBtnForm, displayQuantity, addBtnForm to wrapper
+			wrapper.appendChild(subBtnForm);
+			wrapper.appendChild(displayQuantity);
+			wrapper.appendChild(addBtnForm);
+
+			// append wrapper to second <td>
+			secondTd.appendChild(wrapper);
+
+			// create third <td> for subtotal and deleteBtn
+			const thirdTd = document.createElement("td")
+
+			// create subtotal and deleteBtn for third <td>
+			const subTotal = document.createElement("p");
+			subTotal.classList.add("price");
+			subTotal.textContent = cartItem.total;
+			const deleteBtn = document.createElement("a");
+			deleteBtn.classList.add("delete-item");
+			deleteBtn.href = "/";
+			// create img for deleteBtn
+			const deleteBtnImg = document.createElement("img");
+			deleteBtnImg.src = "img/trash-solid.svg";
+			// append deleteBtnImg to deleteBtn
+			deleteBtn.appendChild(deleteBtnImg);
+
+			// append price and deleteBtn to third <td>
+			thirdTd.appendChild(subTotal);
+			thirdTd.appendChild(deleteBtn);
+
+			// append all <td> to <tr>
+			tableRow.appendChild(firstTd);
+			tableRow.appendChild(secondTd);
+			tableRow.appendChild(thirdTd);
+
+			return tableRow;
+		}
+
+		window.onload = () => {
+			if (isAuthenticated()){
+				// console.info(isAuthenticated());
+				const element = document.querySelector(".login");
+				// console.info(element);
+				element.classList.add("hide");
+
+				document.querySelector(".logoutBtn").onclick = (ev) => {
+					ev.preventDefault();
+
+					// console.info(document.querySelector(".logoutBtn"));
+					deleteCookie("token");
+					window.location.href = "index.html";
+				}
+			}else {
+				const element = document.querySelector(".profile");
+				console.info(element);
+				element.classList.add("hide");
+			}
+			loadCartItems();
+		}
+	</script>
 	</body>
 </html>
