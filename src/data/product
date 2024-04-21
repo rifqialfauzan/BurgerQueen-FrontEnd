@@ -2,51 +2,75 @@
     "data": [
         {
                 "id" : 1,
+                "image": "Buttermilk chicken burger.jpg",
+                "price": 23000,
+                "name": "Buttermilk chicken burger"
+        },
+        {
+                "id" : 2,
+                "image": "Chorizo burger.jpg",
+                "price": 25000,
+                "name": "Chorizo burger"
+        },
+        {
+                "id" : 3,
                 "image": "Honey bacon burger.jpg",
                 "price": 15000,
                 "name": "Honey bacon burger"
         },
         {
-                "id" : 2,
-                "image": "Buttermilk chicken burger.jpg",
+                "id" : 4,
+                "image": "Cicken katsu burger.jpg",
                 "price": 25000,
-                "name": "Buttermilk chicken burger"
+                "name": "Chicken katsu burger"
         },
         {
-                "id" : 1,
-                "image": "Honey bacon burger.jpg",
+                "id" : 5,
+                "image": "Crispy quinoa burger.jpg",
+                "price": 22000,
+                "name": "Crispy quinoa burger"
+        },
+        {
+                "id" : 6,
+                "image": "Ground beef burger.jpg",
+                "price": 18000,
+                "name": "Ground beef burger"
+        },
+        {
+                "id" : 7,
+                "image": "Honey mustard chicken burger.jpg",
                 "price": 15000,
-                "name": "Honey bacon burger"
+                "name": "Honey mustard chicken burger"
         },
         {
-                "id" : 2,
-                "image": "Buttermilk chicken burger.jpg",
+                "id" : 8,
+                "image": "Italian cheese burger.jpg",
                 "price": 25000,
-                "name": "Buttermilk chicken burger"
+                "name": "Italian cheese burger"
         },
         {
-                "id" : 2,
-                "image": "Buttermilk chicken burger.jpg",
+                "id" : 9,
+                "image": "Korean beef sloppy joes burger.jpg",
+                "price": 20000,
+                "name": "Korean beef sloppy joes burger"
+        },
+        {
+                "id" : 10,
+                "image": "Mushroom emmental beef burger.jpg",
+                "price": 20000,
+                "name": "Mushroom emmental beef burger"
+        },
+        {
+                "id" : 11,
+                "image": "Tempeh black bean burger.jpg",
+                "price": 17000,
+                "name": "Tempeh black bean burger"
+        },
+        {
+                "id" : 12,
+                "image": "Ultimate double cheese burger.jpg",
                 "price": 25000,
-                "name": "Buttermilk chicken burger"
-        },
-        {
-                "id" : 1,
-                "image": "Honey bacon burger.jpg",
-                "price": 15000,
-                "name": "Honey bacon burger"
-        },
-        {
-                "id" : 1,
-                "image": "Honey bacon burger.jpg",
-                "price": 15000,
-                "name": "Honey bacon burger"
-        },
-        {
-                "id" : 2,
-                "image": "Buttermilk chicken burger.jpg",
-                "price": 25000,
-                "name": "Buttermilk chicken burger"
+                "name": "Ultimate double cheese burger"
         }
     ]
 }
